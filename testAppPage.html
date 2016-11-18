@@ -53,6 +53,10 @@
 				document.getElementById("app").src = images[currentImage].file;
 			}
 		}
+		
+		function firstImage(){
+			document.getElementById("app").src = images[0].file
+		}
 
 		function closeModal(){
 			document.getElementById("myModal").style.display = "none";
@@ -205,7 +209,7 @@
 		<div>
 			<h1> Implicit Bias in Job Applications </h1>
 			<h2 id="application"> Application <h2>
-			<img id="app" />
+			<img id="app" onclick="firstImage()" />
 		</div>
 	</center>
 	<div id="myModal" class="modal">
@@ -227,7 +231,7 @@
 	<div class="btn-group" role="group" aria-label="Basic example">
  	 	<div class="btn-group" role="group" aria-label="First group">
     		<button id="interview" type="button" class="btn btn-secondary" onclick="setChoice(1)"> Interview </button>
-				<button id="reject" type="button" class="btn btn-secondary" onclick="setChoice(0)"> Reject </button>
+		<button id="reject" type="button" class="btn btn-secondary" onclick="setChoice(0)"> Reject </button>
   	</div>
 	</div>
 	</center>
