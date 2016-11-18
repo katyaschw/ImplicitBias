@@ -41,7 +41,7 @@
 		function getImage(){
 			currentImage += 1;
 			//end test
-			if(currentImage >=  2) {//images.length) {
+			if(currentImage >= images.length) {
 					currentImage = 0;
 					document.getElementById("testArea").style.filter = "blur(4px)";
 					document.getElementById("app").style.display = "none";
@@ -86,24 +86,31 @@
 				document.getElementById("rejectP").innerHTML = "You chose to reject <strong>" + reject +  "</strong> percent of applicants";
 		}
 		function getRacialPercentages(){
-				var totalA = alasql("SELECT file FROM apps WHERE person== ? or person == ?", [2, 3,]);
-				var totalH = alasql("SELECT file FROM apps WHERE person== ? or person == ?", [0, 1,]);
-				var totalW = alasql("SELECT file FROM apps WHERE person== ? or person == ?", [4, 5,]);
-				var interviewA = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [2, 3, 1]);
-				var rejectA = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [2, 3, 0]);
-				var interviewH = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [0, 1, 1]);
-				var rejectH = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [0, 1, 0]);
-				var interviewW = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [4, 5, 1]);
-				var rejectW = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [4, 5, 0]);
+				var totalA = alasql("SELECT file FROM apps WHERE person== ?", [2]);
+				totalA += alasql("SELECT file FROM apps WHERE person== ?", [3]);
+				var totalH = alasql("SELECT file FROM apps WHERE person== ?", [0]);
+				totalH += alasql("SELECT file FROM apps WHERE person== ?", [1]);
+				var totalW = alasql("SELECT file FROM apps WHERE person== ?", [4]);
+				totalW += alasql("SELECT file FROM apps WHERE person== ?", [5]);
+				var interviewA = alasql("SELECT file FROM apps WHERE person == ? and choice == ?", [2, 1]);
+				interviewA += alasql("SELECT file FROM apps WHERE person == ? and choice == ?", [3, 1]);
+				var rejectA = alasql("SELECT file FROM apps WHERE person == ? and choice == ?", [2, 0]);
+				rejectA += alasql("SELECT file FROM apps WHERE person == ? and choice == ?", [3, 0]);
+				var interviewH = alasql("SELECT file FROM apps WHERE person == ? and choice == ?", [0, 1]);
+				interviewH += alasql("SELECT file FROM apps WHERE person == ? and choice == ?", [1, 1]);
+				var rejectH = alasql("SELECT file FROM apps WHERE person == ? and choice == ?", [0, 0]);
+				rejectH += alasql("SELECT file FROM apps WHERE person == ? and choice == ?", [1, 0]);
+				var interviewW = alasql("SELECT file FROM apps WHERE person == ? and choice == ?", [4, 1]);
+				interviewW += alasql("SELECT file FROM apps WHERE person == ? and choice == ?", [5, 1]);
+				var rejectW = alasql("SELECT file FROM apps WHERE person == ? and choice == ?", [4, 0]);
+				rejectW = alasql("SELECT file FROM apps WHERE person == ? and choice == ?", [5, 0]);
+
 				interviewA = Math.round((interviewA.length/totalA.length)*100);
-				window.alert(totalA.length);
-				window.alert(interviewA);
 				interviewH = Math.round((interviewH.length/totalH.length)*100);
 				interviewW = Math.round((interviewW.length/totalW.length)*100);
 				rejectA = Math.round((rejectA.length/totalA.length)*100);
 				rejectH = Math.round((rejectH.length/totalH.length)*100);
 				rejectW = Math.round((rejectW.length/totalW.length)*100);
-				window.alert(rejectA);
 				document.getElementById("interviewAfricanAmerican").innerHTML = "You chose to interview <strong>" + interviewA + "</strong> percent of applicants with common African American names";
 				document.getElementById("rejectAfricanAmerican").innerHTML = "You chose to reject <strong>" + rejectA +  "</strong> percent of applicants with common African American names";
 				document.getElementById("interviewHispanic").innerHTML = "You chose to interview <strong>" + interviewH + "</strong> percent of applicants with common Hispanic names";
@@ -114,84 +121,81 @@
 		}
 
 		function getEmploymentPercentages(){
-				var totalA = alasql("SELECT file FROM apps WHERE person== ? or person == ?", [2, 3,]);
-				var totalH = alasql("SELECT file FROM apps WHERE person== ? or person == ?", [0, 1,]);
-				var totalW = alasql("SELECT file FROM apps WHERE person== ? or person == ?", [4, 5,]);
-				var interviewA = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [2, 3, 1]);
-				var rejectA = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [2, 3, 0]);
-				var interviewH = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [0, 1, 1]);
-				var rejectH = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [0, 1, 0]);
-				var interviewW = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [4, 5, 1]);
-				var rejectW = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [4, 5, 0]);
-				interviewA = Math.round((interviewA.length/totalA.length)*100);
-				window.alert(totalA.length);
-				window.alert(interviewA);
-				interviewH = Math.round((interviewH.length/totalH.length)*100);
-				interviewW = Math.round((interviewW.length/totalW.length)*100);
-				rejectA = Math.round((rejectA.length/totalA.length)*100);
-				rejectH = Math.round((rejectH.length/totalH.length)*100);
-				rejectW = Math.round((rejectW.length/totalW.length)*100);
-				window.alert(rejectA);
-				document.getElementById("interviewTop").innerHTML = "You chose to interview <strong>" + interviewTop + "</strong> percent of applicants with above average prior job experience";
-				document.getElementById("rejectTop").innerHTML = "You chose to reject <strong>" + rejectTop +  "</strong> percent of applicants with above average prior job experience";
-				document.getElementById("interviewMid").innerHTML = "You chose to interview <strong>" + interviewMid + "</strong> percent of applicants with average prior job experience";
-				document.getElementById("rejectMid").innerHTML = "You chose to reject <strong>" + rejectMid+  "</strong> percent of applicants with average prior job experience";
-				document.getElementById("interviewBot").innerHTML = "You chose to interview <strong>" + interviewBot + "</strong> percent of applicants with below average prior job experience";
-				document.getElementById("rejectBot").innerHTML = "You chose to reject <strong>" + rejectBot +  "</strong> percent of applicants with below average prior job experience";
+				var totalTop = alasql("SELECT file FROM apps WHERE employment== ?", [3]);
+				var totalMid = alasql("SELECT file FROM apps WHERE employment== ?", [2]);
+				var totalBot = alasql("SELECT file FROM apps WHERE employment== ?", [1]);
+				var interviewT = alasql("SELECT file FROM apps WHERE employment == ? and choice == ?", [3, 1]);
+				var rejectT = alasql("SELECT file FROM apps WHERE employment == ? and choice == ?", [3, 0]);
+				var interviewM = alasql("SELECT file FROM apps WHERE employment == ? and choice == ?", [2, 1]);
+				var rejectM = alasql("SELECT file FROM apps WHERE employment == ? and choice == ?", [2, 0]);
+				var interviewB = alasql("SELECT file FROM apps WHERE employment == ? and choice == ?", [1, 1]);
+				var rejectB = alasql("SELECT file FROM apps WHERE employment== ? and choice == ?", [1, 0]);
+
+				interviewT = Math.round((interviewT.length/totalTop.length)*100);
+				interviewM = Math.round((interviewM.length/totalMid.length)*100);
+				interviewB = Math.round((interviewB.length/totalBot.length)*100);
+				rejectT = Math.round((rejectT.length/totalTop.length)*100);
+				rejectM = Math.round((rejectM.length/totalMid.length)*100);
+				rejectB = Math.round((rejectB.length/totalBot.length)*100);
+
+				document.getElementById("interviewTop").innerHTML = "You chose to interview <strong>" + interviewT + "</strong> percent of applicants with above average prior job experience";
+				document.getElementById("rejectTop").innerHTML = "You chose to reject <strong>" + rejectT +  "</strong> percent of applicants with above average prior job experience";
+				document.getElementById("interviewMid").innerHTML = "You chose to interview <strong>" + interviewM + "</strong> percent of applicants with average prior job experience";
+				document.getElementById("rejectMid").innerHTML = "You chose to reject <strong>" + rejectM +  "</strong> percent of applicants with average prior job experience";
+				document.getElementById("interviewBot").innerHTML = "You chose to interview <strong>" + interviewB + "</strong> percent of applicants with below average prior job experience";
+				document.getElementById("rejectBot").innerHTML = "You chose to reject <strong>" + rejectB +  "</strong> percent of applicants with below average prior job experience";
 		}
 
 		function getEducationPercentages(){
-				var totalA = alasql("SELECT file FROM apps WHERE person== ? or person == ?", [2, 3,]);
-				var totalH = alasql("SELECT file FROM apps WHERE person== ? or person == ?", [0, 1,]);
-				var totalW = alasql("SELECT file FROM apps WHERE person== ? or person == ?", [4, 5,]);
-				var interviewA = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [2, 3, 1]);
-				var rejectA = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [2, 3, 0]);
-				var interviewH = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [0, 1, 1]);
-				var rejectH = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [0, 1, 0]);
-				var interviewW = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [4, 5, 1]);
-				var rejectW = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [4, 5, 0]);
-				interviewA = Math.round((interviewA.length/totalA.length)*100);
-				window.alert(totalA.length);
-				window.alert(interviewA);
-				interviewH = Math.round((interviewH.length/totalH.length)*100);
-				interviewW = Math.round((interviewW.length/totalW.length)*100);
-				rejectA = Math.round((rejectA.length/totalA.length)*100);
-				rejectH = Math.round((rejectH.length/totalH.length)*100);
-				rejectW = Math.round((rejectW.length/totalW.length)*100);
-				window.alert(rejectA);
-				document.getElementById("interviewTop").innerHTML = "You chose to interview <strong>" + interviewTop + "</strong> percent of applicants with a college education";
-				document.getElementById("rejectTop").innerHTML = "You chose to reject <strong>" + rejectTop +  "</strong> percent of applicants with with a college education";
-				document.getElementById("interviewMid").innerHTML = "You chose to interview <strong>" + interviewMid + "</strong> percent of applicants with a high school education";
-				document.getElementById("rejectMid").innerHTML = "You chose to reject <strong>" + rejectMid+  "</strong> percent of applicants with with a high school education";
-				document.getElementById("interviewBot").innerHTML = "You chose to interview <strong>" + interviewBot + "</strong> percent of applicants with less than a high school education";
-				document.getElementById("rejectBot").innerHTML = "You chose to reject <strong>" + rejectBot +  "</strong> percent of applicants  with less than a high school education";
+			var totalTop = alasql("SELECT file FROM apps WHERE education== ?", [2]);
+			var totalMid = alasql("SELECT file FROM apps WHERE education== ?", [1]);
+			var totalBot = alasql("SELECT file FROM apps WHERE education== ?", [0]);
+			var interviewT = alasql("SELECT file FROM apps WHERE education == ? and choice == ?", [2, 1]);
+			var rejectT = alasql("SELECT file FROM apps WHERE education == ? and choice == ?", [2, 0]);
+			var interviewM = alasql("SELECT file FROM apps WHERE education== ? and choice == ?", [1, 1]);
+			var rejectM = alasql("SELECT file FROM apps WHERE education == ? and choice == ?", [1, 0]);
+			var interviewB = alasql("SELECT file FROM apps WHERE education == ? and choice == ?", [0, 1]);
+			var rejectB = alasql("SELECT file FROM apps WHERE education == ? and choice == ?", [0, 0]);
+
+			interviewT = Math.round((interviewT.length/totalTop.length)*100);
+			interviewM = Math.round((interviewM.length/totalMid.length)*100);
+			interviewB = Math.round((interviewB.length/totalBot.length)*100);
+			rejectT = Math.round((rejectT.length/totalTop.length)*100);
+			rejectM = Math.round((rejectM.length/totalMid.length)*100);
+			rejectB = Math.round((rejectB.length/totalBot.length)*100);
+
+			document.getElementById("interviewTopE").innerHTML = "You chose to interview <strong>" + interviewT + "</strong> percent of applicants with a college education";
+			document.getElementById("rejectTopE").innerHTML = "You chose to reject <strong>" + rejectT +  "</strong> percent of applicants with a college education";
+			document.getElementById("interviewMidE").innerHTML = "You chose to interview <strong>" + interviewM + "</strong> percent of applicants with a high school education";
+			document.getElementById("rejectMidE").innerHTML = "You chose to reject <strong>" + rejectM+  "</strong> percent of applicants with a high school education";
+			document.getElementById("interviewBotE").innerHTML = "You chose to interview <strong>" + interviewB + "</strong> percent of applicants with less than a high school education";
+			document.getElementById("rejectBotE").innerHTML = "You chose to reject <strong>" + rejectB +  "</strong> percent of applicants with less than a high school education";
 		}
 
 		function getCriminalPercentages(){
-				var totalA = alasql("SELECT file FROM apps WHERE person== ? or person == ?", [2, 3,]);
-				var totalH = alasql("SELECT file FROM apps WHERE person== ? or person == ?", [0, 1,]);
-				var totalW = alasql("SELECT file FROM apps WHERE person== ? or person == ?", [4, 5,]);
-				var interviewA = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [2, 3, 1]);
-				var rejectA = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [2, 3, 0]);
-				var interviewH = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [0, 1, 1]);
-				var rejectH = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [0, 1, 0]);
-				var interviewW = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [4, 5, 1]);
-				var rejectW = alasql("SELECT file FROM apps WHERE person == ? or person == ? and choice == ?", [4, 5, 0]);
-				interviewA = Math.round((interviewA.length/totalA.length)*100);
-				window.alert(totalA.length);
-				window.alert(interviewA);
-				interviewH = Math.round((interviewH.length/totalH.length)*100);
-				interviewW = Math.round((interviewW.length/totalW.length)*100);
-				rejectA = Math.round((rejectA.length/totalA.length)*100);
-				rejectH = Math.round((rejectH.length/totalH.length)*100);
-				rejectW = Math.round((rejectW.length/totalW.length)*100);
-				window.alert(rejectA);
-				document.getElementById("interviewYes").innerHTML = "You chose to interview <strong>" + interviewYes + "</strong> percent of applicants with a college education";
-				document.getElementById("rejectYes").innerHTML = "You chose to reject <strong>" + rejectYes +  "</strong> percent of applicants with with a college education";
-				document.getElementById("interviewNo").innerHTML = "You chose to interview <strong>" + interviewNo + "</strong> percent of applicants with a high school education";
-				document.getElementById("rejectNo").innerHTML = "You chose to reject <strong>" + rejectNo +  "</strong> percent of applicants with with a high school education";
-				document.getElementById("interviewBox").innerHTML = "You chose to interview <strong>" + interviewBox + "</strong> percent of applicants with less than a high school education";
-				document.getElementById("rejectBox").innerHTML = "You chose to reject <strong>" + rejectBox +  "</strong> percent of applicants  with less than a high school education";
+			var totalY = alasql("SELECT file FROM apps WHERE criminal== ?", [2]);
+			var totalN = alasql("SELECT file FROM apps WHERE criminal== ?", [1]);
+			var totalB = alasql("SELECT file FROM apps WHERE criminal== ?", [0]);
+			var interviewY = alasql("SELECT file FROM apps WHERE criminal == ? and choice == ?", [2, 1]);
+			var rejectY = alasql("SELECT file FROM apps WHERE criminal == ? and choice == ?", [2, 0]);
+			var interviewN = alasql("SELECT file FROM apps WHERE criminal== ? and choice == ?", [1, 1]);
+			var rejectN = alasql("SELECT file FROM apps WHERE criminal == ? and choice == ?", [1, 0]);
+			var interviewB = alasql("SELECT file FROM apps WHERE criminal == ? and choice == ?", [0, 1]);
+			var rejectB = alasql("SELECT file FROM apps WHERE criminal == ? and choice == ?", [0, 0]);
+
+			interviewY = Math.round((interviewY.length/totalY.length)*100);
+			interviewN = Math.round((interviewN.length/totalN.length)*100);
+			interviewB = Math.round((interviewB.length/totalB.length)*100);
+			rejectY = Math.round((rejectY.length/totalY.length)*100);
+			rejectN = Math.round((rejectN.length/totalN.length)*100);
+			rejectB = Math.round((rejectB.length/totalB.length)*100);
+
+			document.getElementById("interviewYes").innerHTML = "You chose to interview <strong>" + interviewY + "</strong> percent of applicants with a criminal record";
+			document.getElementById("rejectYes").innerHTML = "You chose to reject <strong>" + rejectY +  "</strong> percent of applicants with a criminal record";
+			document.getElementById("interviewNo").innerHTML = "You chose to interview <strong>" + interviewN + "</strong> percent of applicants without a criminal record";
+			document.getElementById("rejectNo").innerHTML = "You chose to reject <strong>" + rejectN +  "</strong> percent of applicants without a criminal record";
+			document.getElementById("interviewBox").innerHTML = "You chose to interview <strong>" + interviewB + "</strong> percent of applicants with no criminal past information";
+			document.getElementById("rejectBox").innerHTML = "You chose to reject <strong>" + rejectB +  "</strong> percent of applicants with no criminal past information";
 		}
 
   </script>
@@ -267,6 +271,12 @@
 		<p class="percents" id="rejectMid"> </p>
 		<p class="percents" id="interviewBot"> </p>
 		<p class="percents" id="rejectBot"> </p>
+		<p class="percents" id="interviewTopE"> </p>
+		<p class="percents" id="rejectTopE"> </p>
+		<p class="percents" id="interviewMidE"> </p>
+		<p class="percents" id="rejectMidE"> </p>
+		<p class="percents" id="interviewBotE"> </p>
+		<p class="percents" id="rejectBotE"> </p>
 		<p class="research">
 		Whites with higher quality resumes and applications received 30 percent more callbacks than Whites with lower
 		quality resumes, a statistically significant difference. On the other hand, having a higher	quality resume
