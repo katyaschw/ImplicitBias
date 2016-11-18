@@ -53,7 +53,7 @@
 				document.getElementById("app").src = images[currentImage].file;
 			}
 		}
-		
+
 		function closeModal(){
 			document.getElementById("myModal").style.display = "none";
 		}
@@ -210,7 +210,7 @@
 	</center>
 	<div id="myModal" class="modal">
   	<div class="modal-content">
-    	<span class="close" onload="closeModal()"> x </span>
+    	<span class="close" onclick="closeModal()"> x </span>
 			<center>
 				<p> You are reviewing applications sent in for the following position: </p>
 				<p> <strong> Entry-Level Administrative Assistant  </strong> </p>
@@ -227,7 +227,7 @@
 	<div class="btn-group" role="group" aria-label="Basic example">
  	 	<div class="btn-group" role="group" aria-label="First group">
     		<button id="interview" type="button" class="btn btn-secondary" onclick="setChoice(1)"> Interview </button>
-		<button id="reject" type="button" class="btn btn-secondary" onclick="setChoice(0)"> Reject </button>
+				<button id="reject" type="button" class="btn btn-secondary" onclick="setChoice(0)"> Reject </button>
   	</div>
 	</div>
 	</center>
@@ -312,11 +312,12 @@
 			of biases you or others might have please visit: <a id="imLink" href="https://implicit.harvard.edu/implicit/takeatest.html"> Project Implicit </a>
 		</p>
 		<br>
-		
-		
+		<div class="btn-group" role="group" aria-label="Basic example">
+				<button type="button" class="btn btn-secondary btn-lg" onclick="javascript:location.href='index.html'"> Home </button>
+		</div>
 		<br>
 	</center>
-		
+
 </div>
 
 <center>
